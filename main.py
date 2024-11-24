@@ -1,28 +1,45 @@
-def mostrar_matriz(matriz):
+def mostrar_laberinto(matriz):
     for i in range(len(matriz)):
         print(matriz[i])
 
 
-def generar_size_laberinto(entrada, salida):
-    posibles_nums = entrada + salida
-    return max(posibles_nums) + 1
+def generar_laberinto(fil, col, matriz):
+    # Fill the first row
+    if fil == 0 and col < len(matriz[fil]):
+        matriz[fil][col] = "*"
 
+        return generar_laberinto(fil, col + 1, matriz)
 
-def generar_matriz_laberinto(entrada, salida, size):
-    matriz = []
+    # Change to the next row
+    elif fil < len(matriz) and col == len(matriz[fil]):
 
-    for i in range(size):
-        fila = []
+        return generar_laberinto(fil + 1, 0, matriz)
 
-        for j in range(size):
-            if i == entrada[0] and j == entrada[1]:
-                fila.append("P")
-            elif i == salida[0] and j == salida[1]:
-                fila.append("S")
-            else:
-                fila.append("")
+    # Fill the last column
+    elif fil < len(matriz) and col == len(matriz[fil]) - 1:
+        matriz[fil][col] = "*"
 
-        matriz.append(fila)
+        return generar_laberinto(fil, col + 1, matriz)
+
+    # Fill the first column
+    elif fil < len(matriz) and col == 0:
+        matriz[fil][col] = "*"
+
+        return generar_laberinto(fil, col + 1, matriz)
+
+    # Fill the last row
+    elif fil == len(matriz) - 1 and col < len(matriz[fil]):
+        matriz[fil][col] = "*"
+
+        return generar_laberinto(fil, col + 1, matriz)
+
+    # Fill the other cells
+    elif fil < len(matriz) and col < len(matriz[fil]):
+        return generar_laberinto(fil, col + 1, matriz)
+
+    else:
+        print("use case not considered")
+
     return matriz
 
 
@@ -32,19 +49,25 @@ def main():
     salida = [2, 8]
 
     # entrada = input("Ingrese la coordenada de entrada: ")
-    # salida = input("Ingrese la coordenada de salida: ")
 
     # entrada = entrada.split(",")
-    # salida = salida.split(",")
 
     # entrada = (int(entrada[0]), int(entrada[1]))
-    # salida = (int(salida[0]), int(salida[1]))
 
-    tam_lab = generar_size_laberinto(entrada, salida)
+    matriz = [
+        [" ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " "],
+    ]
 
-    matriz_lab = generar_matriz_laberinto(entrada, salida, tam_lab)
+    laberinto = generar_laberinto(0, 0, matriz)
 
-    # mostrar_matriz(matriz_lab)
+    mostrar_laberinto(laberinto)
 
 
 main()
