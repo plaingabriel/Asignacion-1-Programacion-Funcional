@@ -1,3 +1,6 @@
+from create_wall import create_wall
+
+
 def mostrar_laberinto(matriz):
     for i in range(len(matriz)):
         print(matriz[i])
@@ -35,10 +38,9 @@ def generar_laberinto(fil, col, matriz):
 
     # Fill the other cells
     elif fil < len(matriz) and col < len(matriz[fil]):
-        return generar_laberinto(fil, col + 1, matriz)
+        matriz[fil][col] = create_wall()
 
-    else:
-        print("use case not considered")
+        return generar_laberinto(fil, col + 1, matriz)
 
     return matriz
 
